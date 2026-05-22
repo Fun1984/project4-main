@@ -1,4 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+
+
+const sampleItems = Array.from({ length: 12 }).map((_, i) => ({
+  id: `item-${i}`,
+  title: `책 이름 ${i + 1}`,
+  subtitle: `책에 관한 설명입니다. ${i + 1}.`,
+  image: `/bookcover1.png`
+}))
 
 function Card({ item, onClick }) {
   return (
@@ -12,9 +20,32 @@ function Card({ item, onClick }) {
   )
 }
 
-export default function ImageGrid({ items = [] }) {
+export default function ImageGrid({ query = '' }) {
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
+
+  const [items, setItems] = useState(sampleItems)
+
+  useEffect(() => {
+    const sampleItems = Array.from({ length: 12 }).map((_, i) => ({
+      id: `item-${i}`,
+      title: `책 이름 ${i + 1}`,
+      subtitle: `책에 관한 설명입니다. ${i + 1}.`,
+      image: `/bookcover1.png`
+    }))
+    setItems(sampleItems)
+  }, [])
+
+  const filteredItems = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) return items
+    return items.filter((item) => {
+      return (
+        item.title.toLowerCase().includes(q) ||
+        item.subtitle.toLowerCase().includes(q)
+      )
+    })
+  }, [query, items])
 
   const handleOpen = (item) => {
     setSelected(item)
@@ -29,7 +60,7 @@ export default function ImageGrid({ items = [] }) {
   return (
     <div>
       <div className="image-grid">
-        {items.map((item) => (
+        {filteredItems.map((item) => (
           <Card key={item.id} item={item} onClick={() => handleOpen(item)} />
         ))}
       </div>

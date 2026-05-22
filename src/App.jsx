@@ -1,50 +1,60 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import './App.css'
-import ImageGrid from './components/ImageGrid'
+import ImageGrid from './views/ImageGrid'
 import Header from './components/Header'
 import CreateForm from './components/CreateForm'
+import { Routes, Route } from 'react-router-dom'
 
+import Home from './views/Home'
+import Create from './views/Create'
+import Update from './views/Update'
 
-const sampleItems = Array.from({ length: 12 }).map((_, i) => ({
-  id: `item-${i}`,
-  title: `책 이름 ${i + 1}`,
-  subtitle: `책에 관한 설명입니다. ${i + 1}.`,
-  image: `/bookcover1.png`
-}))
-
-export default function App() {
+function App() {
   const [query, setQuery] = useState('')
-  const [apiKeyInput, setApiKeyInput] = useState('')
-  const [savedApiKey, setSavedApiKey] = useState('')
 
-  useEffect(() => {
-    const saved = localStorage.getItem('apiKey') || ''
-    setSavedApiKey(saved)
-    setApiKeyInput(saved)
-  }, [])
-
-  const filteredItems = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    if (!q) return sampleItems
-    return sampleItems.filter((item) => {
-      return (
-        item.title.toLowerCase().includes(q) ||
-        item.subtitle.toLowerCase().includes(q)
-      )
-    })
-  }, [query])
+  // const filteredItems = useMemo(() => {
+  //   const q = query.trim().toLowerCase()
+  //   if (!q) return sampleItems
+  //   return sampleItems.filter((item) => {
+  //     return (
+  //       item.title.toLowerCase().includes(q) ||
+  //       item.subtitle.toLowerCase().includes(q)
+  //     )
+  //   })
+  // }, [query])
 
   return (
     <div className="app-root">
-
-      <Header query={query} setQuery={setQuery} apiKeyInput={apiKeyInput} setApiKeyInput={setApiKeyInput} savedApiKey={savedApiKey} />
+      <Header />
 
       <CreateForm />
 
       <main className="app-main">
-        <h2 className="page-title">Image Grid</h2>
-        <ImageGrid items={filteredItems} />
+        {/* Search only visible on /list route */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/list"
+            element={
+              <>
+                <div className="header-center" style={{ marginBottom: '24px' }}>
+                  <input
+                    aria-label="search"
+                    className="search-input"
+                    placeholder="책 제목이나 설명으로 검색"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </div>
+                <ImageGrid query={query} />
+              </>
+            }
+          />
+          <Route path="/create" element={<Create />} />
+        </Routes>
       </main>
     </div>
   )
 }
+
+export default App

@@ -1,16 +1,26 @@
-# React + Vite
+## 기본 기능 구현
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+• 도서 등록 / 조회 / 수정 / 삭제 CRUD 기능 구현
 
-Currently, two official plugins are available:
+• json-server 기반 REST API 연동
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+• React + fetch 기반 데이터 처리
 
-## React Compiler
+• OpenAI API를 활용한 AI 표지 이미지 생성
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+• 생성된 표지 이미지 DB 저장 및 
+   List 화면 썸네일 반영
 
-## Expanding the ESLint configuration
+• 도서 목록 및 상세 정보 조회 기능 제공 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## 추가 확장 구현
+
+• 도서 조회수 기능 추가
+
+• List  화면 위 플로팅 상세 페이지 UI 구현
+• 페이지 이동 없이 상세 정보 확인 가능
+
+• 사용자 중심 UX 개선 및 UI 레이아웃 적용
+• 등록 / 수정 페이지에서 이미지 미리보기 기능 제공
+• 등록 / 수정 POST 수행 시 DB에 기록

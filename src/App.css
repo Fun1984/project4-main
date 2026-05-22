@@ -183,6 +183,8 @@
   }
 }
 
+
+
 /* App styles moved from inline */
 .app-root {
   font-family: sans-serif;
@@ -192,11 +194,17 @@
   color: white;
   padding: 10px 16px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 .app-title {
   margin: 0;
   font-size: 18px;
+}
+.header-nav {
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
 .header-center {
   flex: 1;
@@ -317,3 +325,18 @@
 .card-content { padding: 12px; }
 .card-content h3 { margin: 0 0 8px; font-size: 16px; }
 .card-content p { margin: 0; color: #555; }
+
+/* NavLink styles */
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
