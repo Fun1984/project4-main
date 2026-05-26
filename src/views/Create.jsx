@@ -1,10 +1,11 @@
 import React from 'react'
+import CreateForm from '../components/CreateForm'
 
 function Create() {
 
     return(
         <>
-            <h2>생성 페이지입니다.</h2>
+            <CreateForm />
         </>
     );
 }

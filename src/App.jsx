@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react'
 import './App.css'
 import ImageGrid from './views/ImageGrid'
 import Header from './components/Header'
-import CreateForm from './components/CreateForm'
 import { Routes, Route } from 'react-router-dom'
 
 import Home from './views/Home'
@@ -26,8 +25,6 @@ function App() {
   return (
     <div className="app-root">
       <Header />
-
-      <CreateForm />
 
       <main className="app-main">
         {/* Search only visible on /list route */}
