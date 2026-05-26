@@ -18,6 +18,46 @@ function CreateImageForm({title, author, content}) {
         setCreatedAt(day);
         setUpdatedAt(day);
     }, []);
+    function resizeBase64Image(base64, maxWidth = 512) {
+    return new Promise((resolve) => {
+        const img = new Image();
+
+        img.src = base64;
+
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const scale = maxWidth / img.width;
+
+            canvas.width = maxWidth;
+            canvas.height = img.height * scale;
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // PNG 유지
+            const resizedBase64 = canvas.toDataURL('image/png');
+
+            resolve(resizedBase64);
+            };
+        });
+    }
+    // 책 정보 db 저장을 선행할 경우, 사용. 
+    // 지금 구조에서는 AI 생성까지 다 하고 저장하기로 함.
+    // const handleAddBook = async (newBook) => {
+    // try {
+    //   const res = await fetch('http://localhost:3000/books', {
+    //     method: 'POST',
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: JSON.stringify(newBook)
+    //   });
+    // //   console.log(res.ok)
+    //    const text = await res.text();
+    // //    console.log(text);
+    //   const saved = await res.json();
+    //   setPosts([saved, ...posts]);
+    // } catch (err) { console.error(err); }
+    // };
     
     // const handleAIImage = async () => {
     //     const prompt = `
