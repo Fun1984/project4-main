@@ -20,7 +20,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "framer-motion": "^12.40.0",
-    "json-server": "^1.0.0-beta.15",
+    "json-server": "^0.17.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.15.1",

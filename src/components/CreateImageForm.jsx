@@ -22,25 +22,24 @@ function CreateImageForm({title, author, content}) {
     const handleFinalForm = async () => {
         let imageUrl;
         const prompt = `
-                        # 역할
-                        너는 북커버 제작 담당자야. 
-                        
-                        # 지침
-                        - 북커버의 앞면 표지만을 보여줄 것
-                        - 전문적인 북커버 디자인, 높은 퀄리티의 일러스트레이션, 두드러진 시각적 표현, 작품에 적합한 안전성
-                        - 이야기의 분위기나 무드를 포함
-                        
-                        # 책 정보
-                        - 제목 : "${title}"
-                        - 내용 요약 : ${content}.
-                        `
+            # 역할
+            너는 북커버 제작 담당자야. 
+            
+            # 지침
+            - 북커버의 앞면 표지만을 보여줄 것
+            - 전문적인 북커버 디자인, 높은 퀄리티의 일러스트레이션, 두드러진 시각적 표현, 작품에 적합한 안전성
+            - 이야기의 분위기나 무드를 포함
+            
+            # 책 정보
+            - 제목 : "${title}"
+            - 내용 요약 : ${content}.
+        `
         // 1. AI Image 생성
         try {
             if (loading === false) {
                 setCoverImageUrl('./test_src/loading.gif');
                 setLoading(true);
             }
-            
             const res = await fetch("http://localhost:3001/api/image", {
                 method: "POST",
                 headers: {
@@ -50,13 +49,11 @@ function CreateImageForm({title, author, content}) {
                     model: "gpt-image-2",
                     prompt,
                     n : 1,
-                    size: "1536x1024",
+                    size: "1024x1536",
                     quality,
-                    output_format: 'jpeg',
-                    output_compression: 50
+                    output_format: 'png'
                 }),
             });
-            console.log('1');
             setLoading(false);
 
             if (!res.ok) {
@@ -74,29 +71,30 @@ function CreateImageForm({title, author, content}) {
             const b64Json = data?.data?.[0]?.b64_json;
             
             if (!b64Json) throw new Error('이미지 데이터를 받지 못했습니다.');
-            
-            imageUrl = `data:image/jpeg;base64,${b64Json}`;
+            // imageUrl = `data:image/png;base64,${b64Json}`;
 
-            setCoverImageUrl(imageUrl);
+            // setCoverImageUrl(imageUrl);
             
-            } catch (err) { console.error(err); }
             // 2. db 저장
-            try {
-                const newBook = { title, 
-                              content, 
-                              author,
-                              likes:0, 
-                              views:0, 
-                              imageUrl,
-                              createdAt, 
-                              updatedAt }
-                const res = await fetch('http://localhost:3000/books', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(newBook)
-                });
-                console.log(res.ok)
-            } catch (err) { console.error(err) };   
+            const newBook = await { title, 
+                          content, 
+                          author,
+                          likes:0, 
+                          views:0, 
+                          imageUrl:coverImageUrl,
+                          createdAt, 
+                          updatedAt };
+
+            const res_2 = await fetch('http://localhost:3000/books', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(newBook)
+            });
+            console.log(res_2.ok)
+
+            } catch (err) { console.error(err); }
+            
+            
         }
     
     return (<>
