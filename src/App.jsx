@@ -41,18 +41,14 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newBook),
       })
-    } catch (err) {
-      console.error(err)
-    }
-
-    try {
-      const res = await fetch(bookURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newBook),
-      })
+ 
+      if (!res.ok) {
+        const errorText = await res.text()
+        throw new Error(errorText || '도서 등록에 실패했습니다.')
+      }
+ 
       const saved = await res.json()
-
+ 
       setBooks((prevBooks) => [saved, ...prevBooks])
       navigate('/list')
     } catch (err) {
@@ -60,7 +56,6 @@ function App() {
       setError(err.message || '도서 등록에 실패했습니다.')
     }
   }
-
 
   const handleUpdateBook = async (id, updatedFields) => {
     try {

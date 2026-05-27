@@ -94,6 +94,19 @@ function CreateImageForm({title, author, content, onAddBook}) {
   }
 
   const handleSubmitBook = async () => {
+    // 입력 검증: 제목/저자/내용이 비어있으면 등록 중단하고 알림
+    if (!title || !title.trim()) {
+      alert('제목을 입력해주세요.')
+      return
+    }
+    if (!author || !author.trim()) {
+      alert('저자 이름을 입력해주세요.')
+      return
+    }
+    if (!content || !content.trim()) {
+      alert('내용을 입력해주세요.')
+      return
+    }
     const newBook = {
       id: Math.floor(Math.random() * 1000000),
       title,
