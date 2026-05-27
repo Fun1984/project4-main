@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ 이미지 파일 정적 서빙
+// 이미지 파일 정적 서빙
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.post("/api/image", async (req, res) => {

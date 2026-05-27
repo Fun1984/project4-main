@@ -1,20 +1,24 @@
 import {useState, useEffect} from 'react'
 import Dropdown from './Dropdown'
 
-function getSavableImageUrl(imageUrl) {
-  const invalidPreviewImages = [
-    '/test_src/error.png',
-    './test_src/error.png',
-    '/test_src/loading.gif',
-    './test_src/loading.gif',
-  ]
+// /noImage.jpg는 없나요? 
+// db default 이미지 /noImage.jpg로 잡아뒀고, 
+// UI 상에 보이는 loading.gif의 경우, showImg 로 대체했습니다. 
 
-  if (!imageUrl || invalidPreviewImages.includes(imageUrl)) {
-    return '/noImage.jpg'
-  }
+// function getSavableImageUrl(imageUrl) {
+//   const invalidPreviewImages = [
+//     '/test_src/error.png',
+//     './test_src/error.png',
+//     '/test_src/loading.gif',
+//     './test_src/loading.gif',
+//   ]
 
-  return imageUrl
-}
+//   if (!imageUrl || invalidPreviewImages.includes(imageUrl)) {
+//     return '/noImage.jpg'
+//   }
+
+//   return imageUrl
+// }
 
 function CreateImageForm({title, author, content, onAddBook}) {
     const [today, setToday] = useState('');
@@ -22,7 +26,7 @@ function CreateImageForm({title, author, content, onAddBook}) {
     const [updatedAt, setUpdatedAt] = useState('');
     const [quality, setQuality] = useState('medium');
     const [ai_api_key, setAi_api_key] = useState('');
-    const [coverImageUrl, setCoverImageUrl] = useState('/test_src/01.png');
+    const [coverImageUrl, setCoverImageUrl] = useState('/noImage.jpg');
     
     const [loading, setLoading] = useState(false);
     const [showImg, setShowImg] = useState('');
@@ -74,7 +78,7 @@ function CreateImageForm({title, author, content, onAddBook}) {
             setLoading(false);
 
             if (!res.ok) {
-                setCoverImageUrl('./test_src/error.png');
+                setCoverImageUrl('/noImage.jpg');
                 const errData = await res.json().catch(() => ({}))
                 const status = res.status
                 if (status === 401) throw new Error('API Key가 올바르지 않습니다. 확인 후 다시 시도해주세요.')
@@ -83,10 +87,10 @@ function CreateImageForm({title, author, content, onAddBook}) {
             }
 
             const data = await res.json();
-            const imageUrl = data?.imageUrl;  // ✅ URL만 받음
+            const imageUrl = data?.imageUrl;  // URL만 받음
             if (!imageUrl) throw new Error('이미지 URL을 받지 못했습니다.');
 
-            finalImageUrl = imageUrl;         // ✅ 로컬 변수에도 저장
+            finalImageUrl = imageUrl;         // 로컬 변수에도 저장
             setCoverImageUrl(imageUrl);       // UI 표시용
         } catch (err) { console.error(err); }
         
@@ -144,7 +148,7 @@ function CreateImageForm({title, author, content, onAddBook}) {
                     <button
                     type="button"
                     className="create-submit-button"
-                    onClick={handleSubmitBook}
+                    onClick={handleFinalForm}
                     >
                     등록하기
                     </button>
