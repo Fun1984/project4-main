@@ -7,6 +7,11 @@ export default function Update({ bookURL, onUpdate }) {
   console.log("id:", id)
   const navigate = useNavigate()
 
+  //추가된 state
+  const [title, setTitle] = useState(null)
+  const [author, setAuthor] = useState(null)
+  const [content, setContent] = useState(null)
+
   const [book, setBook] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -66,7 +71,7 @@ export default function Update({ bookURL, onUpdate }) {
           <input 
             id="title"
             type="text" 
-            value={title} 
+            value={book.title} 
             onChange={(e) => setTitle(e.target.value)} 
             required 
           />
@@ -77,7 +82,7 @@ export default function Update({ bookURL, onUpdate }) {
           <input 
             id="author"
             type="text" 
-            value={author} 
+            value={book.author} 
             onChange={(e) => setAuthor(e.target.value)} 
             required 
           />
@@ -87,7 +92,7 @@ export default function Update({ bookURL, onUpdate }) {
           <label htmlFor="content">상세 내용</label>
           <textarea 
             id="content"
-            value={content} 
+            value={book.content} 
             onChange={(e) => setContent(e.target.value)} 
             required 
             rows="8" cols="50"
